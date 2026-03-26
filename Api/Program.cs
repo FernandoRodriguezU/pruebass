@@ -81,6 +81,11 @@ builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<ICursoRepository, CursoRepository>();
 builder.Services.AddScoped<IDocenteRepository, DocenteRepository>();
+builder.Services.AddScoped<IEvaluacionRepository, EvaluacionRepository>();
+builder.Services.AddScoped<IPreguntaEvaluacionRepository, PreguntaEvaluacionRepository>();
+builder.Services.AddScoped<IOpcionPreguntaRepository, OpcionPreguntaRepository>();
+builder.Services.AddScoped<IIntentoEvaluacionRepository, IntentoEvaluacionRepository>();
+builder.Services.AddScoped<IRespuestaEvaluacionRepository, RespuestaEvaluacionRepository>();
 
 
 // UseCases (Merged)
@@ -115,11 +120,41 @@ builder.Services.AddScoped<Business.UseCases.Cursos.DeleteCursoUseCase>();
 builder.Services.AddScoped<Business.UseCases.Docentes.CreateDocenteUseCase>();
 builder.Services.AddScoped<Business.UseCases.Docentes.ListDocentesUseCase>();
 
+// Evaluaciones
+builder.Services.AddScoped<Business.UseCases.Evaluaciones.CreateEvaluacionUseCase>();
+builder.Services.AddScoped<Business.UseCases.Evaluaciones.ListEvaluacionesUseCase>();
+builder.Services.AddScoped<Business.UseCases.Evaluaciones.GetEvaluacionByIdUseCase>();
+
+// Preguntas
+builder.Services.AddScoped<Business.UseCases.Preguntas.CreatePreguntaEvaluacionUseCase>();
+builder.Services.AddScoped<Business.UseCases.Preguntas.ListPreguntasByEvaluacionUseCase>();
+
+// Opciones
+builder.Services.AddScoped<Business.UseCases.Opciones.CreateOpcionPreguntaUseCase>();
+builder.Services.AddScoped<Business.UseCases.Opciones.ListOpcionesByPreguntaUseCase>();
+
+// Intentos
+builder.Services.AddScoped<Business.UseCases.Intentos.StartIntentoEvaluacionUseCase>();
+builder.Services.AddScoped<Business.UseCases.Intentos.GetIntentoDetalleUseCase>();
+builder.Services.AddScoped<Business.UseCases.Intentos.SubmitRespuestaUseCase>();
+builder.Services.AddScoped<Business.UseCases.Intentos.EnviarIntentoUseCase>();
+
 
 // Validators & Mappings
 // --------------------------------------
 builder.Services.AddValidatorsFromAssemblyContaining<PersonProfile>();
-builder.Services.AddAutoMapper(cfg => { }, typeof(PersonProfile), typeof(UserProfile));
+builder.Services.AddAutoMapper(
+    cfg => { },
+    typeof(PersonProfile),
+    typeof(UserProfile),
+    typeof(CategoriaProfile),
+    typeof(CursoProfile),
+    typeof(DocenteProfile),
+    typeof(EvaluacionProfile),
+    typeof(IntentoEvaluacionProfile),
+    typeof(OpcionPreguntaProfile),
+    typeof(PreguntaEvaluacionProfile),
+    typeof(RespuestaEvaluacionProfile));
 
 
 // HTTP Pipeline & Middleware
